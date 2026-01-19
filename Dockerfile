@@ -6,18 +6,18 @@ WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 
-# Build the JAR file (skip tests to speed it up)
+# Build the JAR file
 RUN mvn clean package -DskipTests
 
 # --- Stage 2: Run the Application ---
-FROM openjdk:17-jdk-slim
+# ⚠ CHANGED: Switched to eclipse-temurin (Official OpenJDK successor)
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 
 # Copy the built JAR from the previous stage
-# (Make sure the jar name matches what is in your pom.xml, usually matches artifactId-version)
 COPY --from=build /app/target/multithreaded-api-1.0-SNAPSHOT.jar app.jar
 
-# Expose the port (Render ignores this but it's good practice)
+# Expose the port
 EXPOSE 8080
 
 # Run the App
