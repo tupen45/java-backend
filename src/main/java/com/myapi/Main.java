@@ -7,19 +7,16 @@ import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        int port = 8000;
+        // 1. Get PORT from Render environment, or default to 8080 if running locally
+        String envPort = System.getenv("PORT");
+        int port = envPort != null ? Integer.parseInt(envPort) : 8080;
         
-        // 1. Create Server
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-        // 2. Register the Handler (Router)
         server.createContext("/api", new RequestHandler());
-
-        // 3. ENABLE MULTITHREADING
-        // newCachedThreadPool creates threads as needed and reuses them.
         server.setExecutor(Executors.newCachedThreadPool());
 
-        System.out.println("✅ Server started on port " + port);
+        System.out.println("✅ Server started on Port " + port);
         server.start();
     }
 }
