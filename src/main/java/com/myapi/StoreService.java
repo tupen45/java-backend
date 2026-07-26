@@ -38,6 +38,7 @@ public class StoreService {
             stmt.setString(4, getJsonStr(json, "longitude"));
             stmt.setString(5, getJsonStr(json, "place_name"));
             stmt.setString(6, getJsonStr(json, "seller_name"));
+           
 
             stmt.executeUpdate();
             try (ResultSet keys = stmt.getGeneratedKeys()) {
